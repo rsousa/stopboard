@@ -5,6 +5,7 @@ const stopIds = params.getAll("stop_id").length
   : (params.get("stops") || "").split(",").map((stop) => stop.trim()).filter(Boolean);
 const apiEndpoint = params.get("endpoint") || "https://api.opentransportdata.swiss/ojp20";
 document.documentElement.dataset.theme = theme;
+document.documentElement.dataset.kiosk = params.get("kiosk") === "1" ? "true" : "false";
 if (theme === "tpg") document.querySelector("#page-title").textContent = "Public transports schedules";
 
 const stopsElement = document.querySelector("#stops");
@@ -102,8 +103,9 @@ function filterTpgStop(stop, index) {
       const existing = unique.get(key);
       if (existing) {
         existing.times = [...new Set([...existing.times, ...departure.times])];
+        existing.timeValues = [...new Set([...existing.timeValues, ...departure.timeValues])].sort((first, second) => first - second);
       } else {
-        unique.set(key, { ...departure, times: [...departure.times] });
+        unique.set(key, { ...departure, times: [...departure.times], timeValues: [...departure.timeValues] });
       }
     });
   return { ...stop, departures: [...unique.values()] };
@@ -147,12 +149,21 @@ function parseOjpResponse(xml, stopId) {
     const destination = text(["DestinationText", "DestinationName"]) || "Unknown destination";
     const key = `${line}|${direction || normalizeDestination(destination)}`;
     if (!time) return;
-    const departure = grouped.get(key) || { line, direction, mode: formatMode(text(["PtMode", "Mode"])), destination, times: [] };
+    const departure = grouped.get(key) || { line, direction, mode: formatMode(text(["PtMode", "Mode"])), destination, times: [], timeValues: [] };
     departure.times.push(new Intl.DateTimeFormat("en-GB", { hour: "2-digit", minute: "2-digit", timeZone: "Europe/Zurich" }).format(new Date(time)));
+    departure.timeValues.push(new Date(time).getTime());
     grouped.set(key, departure);
   });
   const nameNode = [...document.getElementsByTagName("*")].find((node) => ["StopPlaceName", "StopPointName", "StopName", "PlaceName"].includes(node.localName));
-  return { name: nameNode?.textContent?.trim() || stopId, id: stopId, departures: [...grouped.values()] };
+  return {
+    name: nameNode?.textContent?.trim() || stopId,
+    id: stopId,
+    departures: [...grouped.values()].map((departure) => {
+      const unique = new Map(departure.timeValues.map((value, index) => [value, departure.times[index]]));
+      const sorted = [...unique.entries()].sort(([first], [second]) => first - second);
+      return { ...departure, timeValues: sorted.map(([value]) => value), times: sorted.map(([, value]) => value) };
+    }).sort((first, second) => first.timeValues[0] - second.timeValues[0])
+  };
 }
 
 async function fetchStop(stopId, token) {

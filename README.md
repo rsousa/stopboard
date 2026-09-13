@@ -18,7 +18,7 @@ npx serve .
 The board is configured through query parameters:
 
 ```text
-index.html?theme=tpg&stops=8501008,8503000
+index.html?theme=tpg&stop_id=ch%3A1%3Asloid%3A92122&kiosk=1
 ```
 
 `theme` accepts `cff` or `tpg`. Use repeated `stop_id` parameters when stop order matters; the first stop is rendered first. Full OJP references such as `ch:1:sloid:92122` are supported:
@@ -36,6 +36,8 @@ index.html?theme=tpg&stops=8593165,8592791&token=YOUR_API_KEY
 ```
 
 The endpoint can be overridden with `endpoint`, but the default is `https://api.opentransportdata.swiss/ojp20` (OJP 2.0). API keys are exposed in browser URLs and requests, so this frontend-only approach is suitable only for a restricted key. The API must also allow browser CORS requests.
+
+Use `kiosk=1` for unattended TV operation. It hides the refresh control, refreshes automatically every minute, preserves the last successful board during network failures, and reports the last successful update time.
 
 The original TPG timetable configuration uses these stop place references:
 
