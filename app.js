@@ -10,6 +10,8 @@ if (theme === "tpg") document.querySelector("#page-title").textContent = "Public
 const stopsElement = document.querySelector("#stops");
 const statusElement = document.querySelector("#status-text");
 const updatedElement = document.querySelector("#updated");
+let renderedData = [];
+let lastSuccessfulUpdate = null;
 
 function formatDate(date) {
   return new Intl.DateTimeFormat("en-GB", { weekday: "short", day: "2-digit", month: "short" }).format(date);
@@ -34,6 +36,7 @@ function formatMode(value) {
 }
 
 function render(data) {
+  renderedData = data;
   stopsElement.innerHTML = data.map((stop) => `
     <section class="stop">
       <header class="stop-heading">
@@ -165,7 +168,7 @@ async function fetchStop(stopId, token) {
 async function loadDepartures() {
   const token = params.get("token");
   if (!token || !stopIds.length) {
-    render([]);
+    if (!renderedData.length) render([]);
     statusElement.textContent = !token ? "Add an API token to load live departures" : "Add at least one stop ID";
     updatedElement.textContent = "Live departures unavailable";
     return;
@@ -174,12 +177,14 @@ async function loadDepartures() {
   try {
     const data = (await Promise.all(stopIds.map((stopId) => fetchStop(stopId, token)))).map(filterTpgStop);
     render(data);
+    lastSuccessfulUpdate = new Date();
     statusElement.textContent = data.some((stop) => stop.departures.length) ? "Live departures" : "No upcoming departures";
-    updatedElement.textContent = `Updated ${new Intl.DateTimeFormat("en-GB", { hour: "2-digit", minute: "2-digit" }).format(new Date())}`;
+    updatedElement.textContent = `Updated ${new Intl.DateTimeFormat("en-GB", { hour: "2-digit", minute: "2-digit" }).format(lastSuccessfulUpdate)}`;
   } catch (error) {
-    statusElement.textContent = "Could not load live departures";
-    updatedElement.textContent = error.message;
-    render([]);
+    statusElement.textContent = renderedData.length ? "Live departures · connection lost" : "Could not load live departures";
+    updatedElement.textContent = lastSuccessfulUpdate
+      ? `Last updated ${new Intl.DateTimeFormat("en-GB", { hour: "2-digit", minute: "2-digit" }).format(lastSuccessfulUpdate)}`
+      : error.message;
   }
 }
 
@@ -187,3 +192,4 @@ document.querySelector("#refresh").addEventListener("click", loadDepartures);
 tick();
 setInterval(tick, 1000);
 loadDepartures();
+setInterval(loadDepartures, 60000);
