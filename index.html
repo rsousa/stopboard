@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#e30613" />
+    <title>StopBoard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="board" aria-live="polite">
+      <header class="topbar">
+        <div class="brand">
+          <span class="brand-mark" aria-hidden="true">↗</span>
+          <div>
+            <p class="eyebrow">Public transport</p>
+            <h1 id="page-title">Departures</h1>
+          </div>
+        </div>
+        <div class="clock">
+          <span id="today"></span>
+          <strong id="clock-time"></strong>
+        </div>
+      </header>
+
+      <section class="statusbar">
+        <span class="live-dot" aria-hidden="true"></span>
+        <span id="status-text">Connecting to live departures…</span>
+        <button id="refresh" class="refresh-button" type="button" aria-label="Refresh departures">↻</button>
+      </section>
+
+      <section id="stops" class="stops" aria-label="Departure boards"></section>
+
+      <footer class="footer">
+        <span id="updated">Live departures unavailable</span>
+      </footer>
+    </main>
+    <script src="app.js"></script>
+  </body>
+</html>
