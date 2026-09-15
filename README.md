@@ -6,6 +6,7 @@ A static, responsive departure board inspired by Swiss public transport displays
 - `tpg`: the blue/violet route treatment and red header inspired by the supplied TPG display.
 - `tl`: a blue-and-yellow Lausanne TL-inspired display.
 - `travys`: a deep-blue and yellow TRAVYS-inspired display for the Vaud region.
+- `zvv`: a cobalt-blue and yellow Zurich ZVV-inspired display.
 
 ## Run
 
@@ -23,7 +24,13 @@ The board is configured through query parameters:
 index.html?theme=tpg&stop_id=ch%3A1%3Asloid%3A92122&kiosk=1
 ```
 
-`theme` accepts `cff`, `tpg`, `tl`, or `travys`. Use repeated `stop_id` parameters when stop order matters; the first stop is rendered first. Full OJP references such as `ch:1:sloid:92122` are supported:
+`theme` accepts `cff`, `tpg`, `tl`, `travys`, or `zvv`. Use repeated `stop_id` parameters when stop order matters; the first stop is rendered first. Full OJP references such as `ch:1:sloid:92122` are supported:
+
+For the Zurich office at Thurgauerstrasse 101A in Glattpark/Opfikon, start with the nearby ZVV stop **Glattpark** and pass its SLOID returned by the OJP StopFinder API:
+
+```text
+index.html?theme=zvv&stop_id=ch%3A1%3Asloid%3AYOUR_GLATTPARK_SLOID&kiosk=1&token=YOUR_OJP20_TOKEN
+```
 
 ```text
 index.html?theme=tpg&stop_id=ch%3A1%3Asloid%3A92122&stop_id=ch%3A1%3Asloid%3A93165&token=YOUR_OJP20_TOKEN
