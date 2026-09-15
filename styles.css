@@ -176,6 +176,61 @@ h1 { margin: 0; font-size: clamp(1.35rem, 3vw, 2rem); letter-spacing: -.04em; }
 [data-theme="tl"] .time.soon { background: #ffd200; color: #003b5c; }
 [data-theme="tl"] .footer { padding: 8px 24px; background: #003b5c; border-top: 0; color: #fff; }
 
+/* TRAVYS-inspired display: deep blue information bars and warm yellow highlights. */
+[data-theme="travys"] {
+  --page: #ffffff;
+  --surface: #ffffff;
+  --surface-alt: #edf3f7;
+  --ink: #123b59;
+  --muted: #567184;
+  --accent: #f5c400;
+  --accent-strong: #0b456b;
+  --line: #b9ccd8;
+  --route-bg: #0b456b;
+  --route-ink: #ffffff;
+  --time-bg: #123b59;
+  --time-ink: #ffffff;
+  --shadow: none;
+}
+[data-theme="travys"] body { background: #ffffff; }
+[data-theme="travys"] .board { width: 100%; min-height: 100vh; margin: 0; border: 0; border-radius: 0; box-shadow: none; }
+[data-theme="travys"] .topbar { min-height: 76px; padding: 15px 24px 13px; background: #0b456b; }
+[data-theme="travys"] .brand { gap: 12px; }
+[data-theme="travys"] .brand-mark { display: grid; width: 42px; height: 42px; border: 3px solid #f5c400; color: #f5c400; }
+[data-theme="travys"] .eyebrow { display: block; color: #d9e8f0; }
+[data-theme="travys"] h1 { font-size: clamp(1.25rem, 1.7vw, 2rem); font-weight: 700; }
+[data-theme="travys"] .clock strong { font-size: clamp(1.25rem, 1.5vw, 1.9rem); }
+[data-theme="travys"] .statusbar { min-height: 48px; padding: 0 24px; background: #f5f9fb; border-bottom: 4px solid #f5c400; color: #123b59; font-size: clamp(.85rem, .9vw, 1.1rem); }
+[data-theme="travys"] .live-dot { background: #009b77; box-shadow: 0 0 0 4px #e3f5ef; }
+[data-theme="travys"] .stops { padding: 18px 22px 24px; }
+[data-theme="travys"] .stop { border: 1px solid #b9ccd8; border-radius: 4px; }
+[data-theme="travys"] .stop-heading { padding: 12px 16px; background: #0b456b; border-bottom: 0; color: #fff; }
+[data-theme="travys"] .stop-name { font-size: clamp(1rem, 1.1vw, 1.4rem); }
+[data-theme="travys"] .pin { color: #f5c400; }
+[data-theme="travys"] .stop-id { color: #d9e8f0; }
+[data-theme="travys"] .line-entry { grid-template-columns: 145px minmax(0, 1fr); gap: 24px; min-height: 106px; padding: 11px 14px; border-bottom: 1px solid #b9ccd8; }
+[data-theme="travys"] .line-summary { align-items: center; }
+[data-theme="travys"] .line-badge { width: 82px; min-height: 68px; border-radius: 4px; background: #0b456b; font-size: clamp(1.6rem, 1.7vw, 2.35rem); }
+[data-theme="travys"] .mode-icon { width: 58px; height: 58px; background: #123b59; }
+[data-theme="travys"] .direction-row { grid-template-columns: minmax(340px, 1fr) minmax(480px, 1.8fr); gap: 26px; min-height: 43px; border-bottom-color: #d5e2e9; }
+[data-theme="travys"] .destination::before { color: #0b456b; }
+[data-theme="travys"] .destination { font-size: clamp(1rem, 1.05vw, 1.45rem); }
+[data-theme="travys"] .via { font-size: clamp(.8rem, .8vw, 1.05rem); }
+[data-theme="travys"] .times { grid-template-columns: repeat(4, minmax(62px, 1fr)); max-width: 570px; }
+[data-theme="travys"] .time { min-width: 62px; padding: 8px 10px; font-size: clamp(.9rem, .9vw, 1.2rem); }
+[data-theme="travys"] .time.soon { background: #f5c400; color: #123b59; }
+[data-theme="travys"] .footer { padding: 8px 24px; background: #123b59; border-top: 0; color: #fff; }
+
+@media (min-width: 1600px) {
+  [data-theme="travys"] .topbar { min-height: 92px; }
+  [data-theme="travys"] .statusbar { min-height: 58px; }
+  [data-theme="travys"] .stop-heading { padding: 14px 18px; }
+  [data-theme="travys"] .line-entry { min-height: 132px; }
+  [data-theme="travys"] .line-badge { width: 100px; min-height: 84px; }
+  [data-theme="travys"] .mode-icon { width: 72px; height: 72px; }
+  [data-theme="travys"] .direction-row { min-height: 54px; }
+}
+
 @media (min-width: 1600px) {
   [data-theme="tl"] .topbar { min-height: 92px; }
   [data-theme="tl"] .statusbar { min-height: 58px; }
@@ -235,4 +290,8 @@ h1 { margin: 0; font-size: clamp(1.35rem, 3vw, 2rem); letter-spacing: -.04em; }
   [data-theme="tl"] .direction-row { grid-template-columns: 1fr; gap: 7px; padding: 9px 0; }
   [data-theme="tl"] .line-badge { width: 82px; min-height: 56px; font-size: 1.35rem; }
   [data-theme="tl"] .mode-icon { width: 52px; height: 52px; }
+  [data-theme="travys"] .line-entry { grid-template-columns: 126px minmax(0, 1fr); gap: 14px; }
+  [data-theme="travys"] .direction-row { grid-template-columns: 1fr; gap: 7px; padding: 9px 0; }
+  [data-theme="travys"] .line-badge { width: 82px; min-height: 56px; font-size: 1.35rem; }
+  [data-theme="travys"] .mode-icon { width: 52px; height: 52px; }
 }

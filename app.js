@@ -1,13 +1,13 @@
 const params = new URLSearchParams(window.location.search);
 const requestedTheme = params.get("theme");
-const theme = ["cff", "tpg", "tl"].includes(requestedTheme) ? requestedTheme : "cff";
+const theme = ["cff", "tpg", "tl", "travys"].includes(requestedTheme) ? requestedTheme : "cff";
 const stopIds = params.getAll("stop_id").length
   ? params.getAll("stop_id").map((stop) => stop.trim()).filter(Boolean)
   : (params.get("stops") || "").split(",").map((stop) => stop.trim()).filter(Boolean);
 const apiEndpoint = params.get("endpoint") || "https://api.opentransportdata.swiss/ojp20";
 document.documentElement.dataset.theme = theme;
 document.documentElement.dataset.kiosk = params.get("kiosk") === "1" ? "true" : "false";
-if (theme !== "cff") document.querySelector("#page-title").textContent = `${theme.toUpperCase()} public transport`;
+if (theme !== "cff") document.querySelector("#page-title").textContent = `${theme === "travys" ? "TRAVYS" : theme.toUpperCase()} public transport`;
 
 const stopsElement = document.querySelector("#stops");
 const statusElement = document.querySelector("#status-text");
